@@ -223,6 +223,23 @@ public class OAS3ParserTest extends OASTestBase {
                 response.getErrorItems().get(0).getErrorDescription());
     }
 
+    @Test
+    public void testRootLevelApplicationSecurity() throws Exception {
+        String apiSecurity = "oauth_basic_auth_api_key_mandatory,oauth2,api_key";
+        String oasDefinition = IOUtils.toString(
+                getClass().getClassLoader().getResourceAsStream("definitions" + File.separator + "oas3"
+                        + File.separator + "oas3_app_security.json"),
+                "UTF-8");
+        String oasDefinitionEdited = IOUtils.toString(
+                getClass().getClassLoader().getResourceAsStream("definitions" + File.separator + "oas3"
+                        + File.separator + "oas3_app_security_key.json"),
+                "UTF-8");
+        API api = Mockito.mock(API.class);
+        when(api.getApiSecurity()).thenReturn(apiSecurity);
+        APIDefinition parser = OASParserUtil.getOASParser(oasDefinition);
+        String response = parser.getOASDefinitionForPublisher(api, oasDefinition);
+        Assert.assertEquals(oasDefinitionEdited, response);
+    }
     // Test case for an API with clientCredentials security scheme
     @Test
     public void testProcessOtherSchemeScopesWithClientCredentialsScheme() throws Exception {

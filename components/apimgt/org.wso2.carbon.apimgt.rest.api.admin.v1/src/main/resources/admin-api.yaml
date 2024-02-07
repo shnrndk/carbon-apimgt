@@ -4169,6 +4169,10 @@ components:
         provider:
           type: string
           example: wso2
+        gatewayType:
+          type: string
+          example: Regular
+          default: Regular
         description:
           maxLength: 1023
           type: string
@@ -4408,6 +4412,10 @@ components:
       type: object
       properties:
         scopes:
+          type: array
+          items:
+            type: string
+        gatewayTypes:
           type: array
           items:
             type: string
